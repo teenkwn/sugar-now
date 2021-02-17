@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- App style -->
+    <style>
+      .interim {
+        color: gray;
+      }
+      .final {
+        color: black;
+        padding-right: 3px;
+      }
+      .container {
+        margin-top: 70px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .button-logo {
+        margin-top: 50px;
+        background-color: #38b6ff;
+        border-radius: 30px;
+        color: white;
+        border-style: none;
+        height: 50px;
+        width: 100px;
+      }
+      ul {
+        padding-inline-start: 0px;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        list-style-type: none;
+      }
+      .blockquote {
+        margin-top: 30px;
+      }
+    </style>
+
+    <title>Sugar Now</title>
+  </head>
+  <body>
+    <div class='container'>
+      <img class="sugarnow-logo" src="SugarNow.png" alt="sugarnow">
+      <button type="button" id='btn-transcribe' class="button-logo">Speak</button>
+      <span id='info'></span>
+      <blockquote class="blockquote">
+        <div id="results">
+          <span class="final" id="final_span"></span>
+          <span class="interim" id="interim_span"></span>
+        </div>
+      </blockquote>
+
+      <hr>
+      <ul> 
+        <li><a href='https://airesearch.in.th/releases/machine-translation-models/'>TH - EN</a></li>
+      <ul>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+
+      var synth = window.speechSynthesis;
+      var final_transcript = '';
+      var recognizing = false;
+      var ignore_onend;
+      var start_timestamp;
+      var lastDebounceTranscript;
+
+      // utility tools
+      var two_line = /\n\n/g;
+      var one_line = /\n/g;
+      function linebreak(s) {
+        return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
+      }
+
+      var first_char = /\S/;
+      function capitalize(s) {
+        return s.replace(first_char, function(m) { return m.toUpperCase(); });
+      }
+
+      function showInfo(msg){
+        // $('#info').html(msg);
+      }
+
+      function upgrade(){
+        alert('Browser is not support');
+      }
+
+      function startButton(event) {
+        if (recognizing) {
+          recognition.stop();
+          return;
+        }
+        final_transcript = '';
+        recognition.lang = 'th-TH';
+        recognition.start();
+        ignore_onend = false;
+        final_span.innerHTML = '';
+        interim_span.innerHTML = '';
+        showInfo('info_allow');
+        start_timestamp = event.timeStamp;
+      }
+
+      function speak(msg, options){
+        var utterThis = new SpeechSynthesisUtterance(msg);
+        var options = options || {};
+        var lang = options.lang || 'th-TH';
+        var pitch = options.pitch || 1;
+        var rate = options.rate || 1;
+        utterThis.lang = lang;
+        utterThis.pitch = pitch;
+        utterThis.rate = rate;
+        synth.speak(utterThis);
+      }
+
+      
+
+      // initialize recognition
+      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+      var recognition = new SpeechRecognition();
+
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onstart = function() {
+        recognizing = true;
+        showInfo('info_speak_now');
+      };
+
+      recognition.onerror = function(event) {
+        if (event.error == 'no-speech') {
+          showInfo('info_no_speech');
+          ignore_onend = true;
+        }
+        if (event.error == 'audio-capture') {
+          showInfo('info_no_microphone');
+          ignore_onend = true;
+        }
+        if (event.error == 'not-allowed') {
+          if (event.timeStamp - start_timestamp < 100) {
+            showInfo('info_blocked');
+          } else {
+            showInfo('info_denied');
+          }
+          ignore_onend = true;
+        }
+      };
+
+      recognition.onend = function() {
+        recognizing = false;
+        if (ignore_onend) {
+          return;
+        }
+        if (!final_transcript) {
+          showInfo('info_start');
+          return;
+        }
+        showInfo('');
+
+        // speak agree
+        var msg = $('#final_span').html();
+        agree_bot(msg);
+      };
+
+      recognition.onresult = function(event) {
+        var interim_transcript = '';
+        if (typeof(event.results) == 'undefined') {
+          recognition.onend = null;
+          recognition.stop();
+          upgrade();
+          return;
+        }
+        for (var i = event.resultIndex; i < event.results.length; ++i) {
+
+          var transcript = event.results[i][0].transcript;
+          var confidence = event.results[i][0].confidence;
+          var isFinal = event.results[i].isFinal && (confidence > 0);
+
+          if (isFinal) {
+            // check duplicate result on android
+            if(transcript+confidence == lastDebounceTranscript) { return; }
+            lastDebounceTranscript = transcript+confidence;
+
+            final_transcript += transcript;
+          } else {
+            interim_transcript += transcript;
+          }
+        }
+        final_transcript = capitalize(final_transcript);
+        final_span.innerHTML = linebreak(final_transcript);
+        interim_span.innerHTML = linebreak(interim_transcript);
+
+        // stop recording when final word found
+        if (final_transcript && recognizing){
+          $('#btn-transcribe').click();
+        }
+      };
+
+      // handle transcribe button
+      $('#btn-transcribe').click((evt) => {
+        let thiz = evt.target;
+        let ready_text = 'Speak';
+        let working_text = 'Working...';
+        let working = $(thiz).html() == working_text;
+
+        if(!working){ // press to start
+          // ui
+          $(thiz).html(working_text);
+          $(thiz).removeClass('btn-primary');
+          $(thiz).addClass('btn-danger');
+
+          // start
+          startButton(evt);
+        }
+        else { // press to stop
+          // ui
+          $(thiz).html(ready_text);
+          $(thiz).removeClass('btn-danger');
+          $(thiz).addClass('btn-primary');
+
+          // stop
+          recognizing = false;
+          recognition.stop();
+        }
+      });
+
+    </script>
+
+  </body>
+</html>
