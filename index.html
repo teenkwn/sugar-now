@@ -10,6 +10,10 @@
 
     <!-- App style -->
     <style>
+      body {
+        height: 100vh;
+
+      }
       .interim {
         color: gray;
       }
@@ -18,12 +22,24 @@
         padding-right: 3px;
       }
       .container {
-        margin-top: 70px;
+        height: 100vh;
         align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+      }
+
+      .relative {
+        position: relative;
+      }
+
+      .absolute {
+        position: absolute;
+        width: 30px;
+        height: 40px;
+        left: 35px;
+        bottom: 5px;
       }
       .button-logo {
         margin-top: 50px;
@@ -44,6 +60,16 @@
       .blockquote {
         margin-top: 30px;
       }
+      @media only screen and (max-width: 600px){
+        .sugarnow-logo {
+          height: 40px;
+          width: 250px;
+        }
+        .then {
+          margin-top: 20px;
+        }
+
+      }
     </style>
 
     <title>Sugar Now</title>
@@ -51,7 +77,9 @@
   <body>
     <div class='container'>
       <img class="sugarnow-logo" src="SugarNow.png" alt="sugarnow">
-      <button type="button" id='btn-transcribe' class="button-logo">Speak</button>
+      <button type="button" id='btn-transcribe' class="relative button-logo">
+        <img class="absolute" src="microphone.png" alt="microphone">
+      </button>
       <span id='info'></span>
       <blockquote class="blockquote">
         <div id="results">
@@ -60,9 +88,8 @@
         </div>
       </blockquote>
 
-      <hr>
       <ul> 
-        <li><a href='https://airesearch.in.th/releases/machine-translation-models/'>TH - EN</a></li>
+        <li><a href='https://airesearch.in.th/releases/machine-translation-models/' class="then">Translate to TH - EN</a></li>
       <ul>
 
     </div>
