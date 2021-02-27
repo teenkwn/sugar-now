@@ -12,7 +12,6 @@
     <style>
       body {
         height: 100vh;
-
       }
       .interim {
         color: gray;
@@ -64,6 +63,14 @@
 
       }
 
+      .hide-powerby {
+        position: absolute;
+        background-color: white;
+        width: 200px;
+        height: 100px;
+        top: 24px;
+      }
+
       .blockquote {
         margin-top: 30px;
       }
@@ -82,7 +89,10 @@
     <title>Sugar Now</title>
   </head>
   <body>
-    <div id="google_translate_element"></div>
+    <div id="google_translate_element">
+      <div class='hide-powerby'></div>
+    </div>
+    
     <script>
       function googleTranslateElementInit() {
           new google.translate.TranslateElement(
@@ -93,6 +103,7 @@
   </script>
   <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <div class='container'>
+      
       <img class="sugarnow-logo" src="SugarNow.png" alt="sugarnow">
       <button type="button" id='btn-transcribe' class="relative button-logo">
         <img class="absolute" src="microphone.png" alt="microphone">
