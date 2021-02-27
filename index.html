@@ -82,21 +82,31 @@
     <title>Sugar Now</title>
   </head>
   <body>
+    <div id="google_translate_element"></div>
+    <script>
+      function googleTranslateElementInit() {
+          new google.translate.TranslateElement(
+              {pageLanguage: 'en'},
+              'google_translate_element'
+          );
+      }
+  </script>
+  <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <div class='container'>
       <img class="sugarnow-logo" src="SugarNow.png" alt="sugarnow">
       <button type="button" id='btn-transcribe' class="relative button-logo">
         <img class="absolute" src="microphone.png" alt="microphone">
       </button>
       <span id='info'></span>
-      <blockquote class="blockquote">
         <div id="results">
           <span class="final" id="final_span"></span>
           <span class="interim" id="interim_span"></span>
         </div>
-      </blockquote>
 
       <ul> 
-        <li class="then"><a href='https://airesearch.in.th/releases/machine-translation-models/' class="then">Translate to TH - EN</a></li>
+        <!-- <li class="then"><a href='https://airesearch.in.th/releases/machine-translation-models/' class="then">Translate to TH - EN</a></li> -->
+        <li class="then" id="translate">Translate to TH - EN</li>
+        <!-- <li class="translate">Click here to translate jaaaa</li> -->
         <li class="then"><a href='https://sugartechco.wixsite.com/my-site-2' class="then">CONTACT US</a></li>
       <ul>
 
@@ -107,7 +117,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
     <script>
 
       var synth = window.speechSynthesis;
@@ -133,6 +144,8 @@
         // $('#info').html(msg);
       }
 
+      
+      
       function upgrade(){
         alert('Browser is not support');
       }
