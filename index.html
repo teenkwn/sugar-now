@@ -86,7 +86,7 @@
     <script>
       function googleTranslateElementInit() {
           new google.translate.TranslateElement(
-              {pageLanguage: 'en'},
+              {pageLanguage: 'th'},
               'google_translate_element'
           );
       }
@@ -98,10 +98,12 @@
         <img class="absolute" src="microphone.png" alt="microphone">
       </button>
       <span id='info'></span>
+      <blockquote class="blockquote">
         <div id="results">
           <span class="final" id="final_span"></span>
           <span class="interim" id="interim_span"></span>
         </div>
+      </blockquote>
 
       <ul> 
         <!-- <li class="then"><a href='https://airesearch.in.th/releases/machine-translation-models/' class="then">Translate to TH - EN</a></li> -->
@@ -144,8 +146,7 @@
         // $('#info').html(msg);
       }
 
-      
-      
+
       function upgrade(){
         alert('Browser is not support');
       }
