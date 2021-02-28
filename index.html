@@ -34,8 +34,10 @@
         padding-right: 3px;
       }
       .container {
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        height: 100vh;
+        height: max-content;
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -99,7 +101,13 @@
       .goog-te-banner-frame {
         display: none;
       }
-      
+      .iphone-design {
+        margin-top: 40px;
+        height: 300px;
+        width: 500px;
+        position: relative;
+        z-index: 1000;
+      }
       @media only screen and (max-width: 600px){
         body {
           width: max-content;
@@ -107,18 +115,25 @@
         .sugarnow-logo {
           height: 40px;
           width: 250px;
-          margin-top: 150px;
+          margin-top: 100px;
+          position: relative;
         }
         .then {
           margin-top: 20px;
+        }
+        .iphone-design {
+          position: relative;
+          margin-top: auto;
+          margin-bottom: 50px;
+          transform: rotate(270deg);
         }
 
       }
       #container {
         margin: 0px auto;
         width: 500px;
-        height: 375px;
         position: relative;
+        height: max-content;
       }
       #videoElement {
         width: 470px;
@@ -128,13 +143,7 @@
         border-radius: 30px;
         
       }
-      .iphone-design {
-        margin-top: 40px;
-        height: 300px;
-        width: 500px;
-        position: relative;
-        z-index: 1000;
-      }
+      
       .button-side {
         margin-left: auto;
         margin-right: auto;
