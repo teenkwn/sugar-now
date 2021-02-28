@@ -121,12 +121,6 @@
         .then {
           margin-top: 20px;
         }
-        .iphone-design {
-          position: relative;
-          margin-top: auto;
-          margin-bottom: 50px;
-          transform: rotate(270deg);
-        }
 
       }
       #container {
@@ -202,7 +196,16 @@
           );
       }
       
+      
+      var videoWidth, videoHeight;
+      var getVideoSize = function() {
+          videoWidth = video.videoWidth;
+          videoHeight = video.videoHeight;
+          video.removeEventListener('playing', getVideoSize, false);
+      };
 
+      video.addEventListener('playing', getVideoSize, false);
+      console.log(videoWidth,videoHeight);
       
   </script>
   
@@ -219,7 +222,7 @@
           var video = document.querySelector("#videoElement");
 
           if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true })
+            navigator.mediaDevices.getUserMedia({ video: { width: 470, height: 260} })
               .then(function (stream) {
                 video.srcObject = stream;
               })
