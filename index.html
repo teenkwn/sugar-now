@@ -10,8 +10,21 @@
 
     <!-- App style -->
     <style>
+      @keyframes moveFast {
+        from {top: 150px;}
+        to {top: 0px;}
+      }
+      @keyframes moveMediem {
+        from {top: 80px;}
+        to {top: 0px;}
+      }
+      @keyframes moveSlow {
+        from {top: 100px;}
+        to {top: 0px;}
+      }
       body {
         height:max-content;
+        
       }
       .interim {
         color: gray;
@@ -21,6 +34,7 @@
         padding-right: 3px;
       }
       .container {
+        width: 100%;
         height: 100vh;
         align-items: center;
         display: flex;
@@ -70,8 +84,8 @@
       .hide-powerby {
         position: absolute;
         background-color: white;
-        width: 200px;
-        height: 100px;
+        width: 150px;
+        height: 50px;
         top: 24px;
       }
 
@@ -87,9 +101,13 @@
       }
       
       @media only screen and (max-width: 600px){
+        body {
+          width: max-content;
+        }
         .sugarnow-logo {
           height: 40px;
           width: 250px;
+          margin-top: 150px;
         }
         .then {
           margin-top: 20px;
@@ -100,11 +118,60 @@
         margin: 0px auto;
         width: 500px;
         height: 375px;
+        position: relative;
       }
       #videoElement {
-        width: 500px;
+        width: 470px;
+        left: 10px;
         height: 375px;
+        position: absolute;
+        border-radius: 30px;
+        
       }
+      .iphone-design {
+        margin-top: 40px;
+        height: 300px;
+        width: 500px;
+        position: relative;
+        z-index: 1000;
+      }
+      .button-side {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+      }
+      .img-icon1 {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        animation-name: moveFast;
+        animation-duration: 4s;
+      }
+      .img-icon2 {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        animation-name: moveMediem;
+        animation-duration: 4s;
+      }
+      .img-icon3 {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        animation-name: moveSlow;
+        animation-duration: 4s;
+      }
+      .img-icon4 {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        animation-name: moveFast;
+        animation-duration: 4s;
+      }
+
     </style>
 
     <title>Sugar Now</title>
@@ -130,7 +197,9 @@
     <div class='container'>
       <img class="sugarnow-logo" src="SugarNow.png" alt="sugarnow">
       <div id="container">
+        <img src="iphone.png" alt="iphone" class="iphone-design"></img>
         <video autoplay="true" id="videoElement">
+        
         
         </video>
         <script>
@@ -149,11 +218,17 @@
         </script>
       </div>
       
-      
-      <button type="button" id='btn-transcribe' class="relative button-logo">
-        <img class="absolute" src="microphone2.png" alt="microphone">
-      </button>
-      
+      <div class="button-side">
+        <img src="smile.png" alt="smile" class="img-icon1">
+        <img src="like.png" alt="like" class="img-icon2">
+        <img src="love.png" alt="love" class="img-icon3">
+        <button type="button" id='btn-transcribe' class="relative button-logo">
+          <img class="absolute" src="microphone2.png" alt="microphone">
+        </button>
+        <img src="smile.png" alt="smile" class="img-icon4">
+        <img src="love.png" alt="love" class="img-icon2">
+        <img src="like.png" alt="like" class="img-icon1">
+      </div>
       <span id='info'></span>
       <blockquote class="blockquote">
         <div id="results">
