@@ -11,7 +11,7 @@
     <!-- App style -->
     <style>
       body {
-        height: 100vh;
+        height:max-content;
       }
       .interim {
         color: gray;
@@ -28,7 +28,9 @@
         justify-content: center;
         align-items: center;
       }
-
+      .sugarnow-logo {
+        margin-top: 40px;
+      }
       .relative {
         position: relative;
       }
@@ -39,6 +41,7 @@
         height: 40px;
         left: 35px;
         bottom: 5px;
+        z-index: 1000;
       }
       .button-logo {
         margin-top: 50px;
@@ -48,6 +51,7 @@
         border-style: none;
         height: 50px;
         width: 100px;
+        z-index: 1000;
       }
       ul {
         padding-inline-start: 0px;
@@ -75,6 +79,13 @@
         margin-top: 30px;
       }
       
+      .goog-te-banner {
+        display: none;
+      }
+      .goog-te-banner-frame {
+        display: none;
+      }
+      
       @media only screen and (max-width: 600px){
         .sugarnow-logo {
           height: 40px;
@@ -84,6 +95,15 @@
           margin-top: 20px;
         }
 
+      }
+      #container {
+        margin: 0px auto;
+        width: 500px;
+        height: 375px;
+      }
+      #videoElement {
+        width: 500px;
+        height: 375px;
       }
     </style>
 
@@ -101,55 +121,39 @@
               'google_translate_element'
           );
       }
-      'use strict';
-      const video = document.getElementById('video');
-      const canvas = document.getElementById('canvas');
-      const snap = document.getElementById('snap');
-      const errorMsgElement = document.getElementById('span#ErrorMsg');
-      const constraints = {
-        audio: true,
-        video: {
-          width: 1280, height: 720
-        }
-      }
-      async function init() {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia(constraints)
-          handleSuccess(stream);
-        }
-        catch(e) {
-          errorMsgElement.innerHTML = `navigator.getUserMedia.error:${e.toString()}`
-        }
-      }
-      function handleSuccess(stream) {
-        window.stream = stream;
-        video.srcObject = stream;
-      }
-      init();
-      var context = canvas.getContext('2d');
-      snap.addEventListener("click", function(){
-        context.drawImage(video, 0, 0, 640, 480);
-      });
+      
 
       
   </script>
   
   <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <div class='container'>
-
-      <div class="video-wrap">
-        <video id="video" playsinline autoplay></video>
-      </div>
-
-      <div class="controller">
-        <button id="snap">Capture</button>
-      </div>
-      <canvas id="canvas" width="640" height="480"></canvas>
-
       <img class="sugarnow-logo" src="SugarNow.png" alt="sugarnow">
+      <div id="container">
+        <video autoplay="true" id="videoElement">
+        
+        </video>
+        <script>
+          var video = document.querySelector("#videoElement");
+
+          if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+              .then(function (stream) {
+                video.srcObject = stream;
+              })
+              .catch(function (err0r) {
+                console.log("Something went wrong!");
+              });
+          }
+
+        </script>
+      </div>
+      
+      
       <button type="button" id='btn-transcribe' class="relative button-logo">
-        <img class="absolute" src="microphone.png" alt="microphone">
+        <img class="absolute" src="microphone2.png" alt="microphone">
       </button>
+      
       <span id='info'></span>
       <blockquote class="blockquote">
         <div id="results">
