@@ -10,9 +10,21 @@
 
     <!-- App style -->
     <style>
+      @keyframes moveFast {
+        from {top: 150px;}
+        to {top: 0px;}
+      }
+      @keyframes moveMediem {
+        from {top: 80px;}
+        to {top: 0px;}
+      }
+      @keyframes moveSlow {
+        from {top: 100px;}
+        to {top: 0px;}
+      }
       body {
-        height: 100vh;
-
+        height:max-content;
+        
       }
       .interim {
         color: gray;
@@ -22,14 +34,19 @@
         padding-right: 3px;
       }
       .container {
-        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: max-content;
         align-items: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
       }
-
+      .sugarnow-logo {
+        margin-top: 40px;
+      }
       .relative {
         position: relative;
       }
@@ -40,6 +57,7 @@
         height: 40px;
         left: 35px;
         bottom: 5px;
+        z-index: 1000;
       }
       .button-logo {
         margin-top: 50px;
@@ -49,6 +67,7 @@
         border-style: none;
         height: 50px;
         width: 100px;
+        z-index: 1000;
       }
       ul {
         padding-inline-start: 0px;
@@ -64,29 +83,174 @@
 
       }
 
+      .hide-powerby {
+        position: absolute;
+        background-color: white;
+        width: 150px;
+        height: 50px;
+        top: 24px;
+      }
+
       .blockquote {
         margin-top: 30px;
       }
+      
+      .goog-te-banner {
+        display: none;
+      }
+      .goog-te-banner-frame {
+        display: none;
+      }
+      .iphone-design {
+        margin-top: 40px;
+        height: 300px;
+        width: 500px;
+        position: relative;
+        z-index: 100;
+      }
       @media only screen and (max-width: 600px){
+        body {
+          width: max-content;
+        }
         .sugarnow-logo {
           height: 40px;
           width: 250px;
+          margin-top: 100px;
+          position: relative;
         }
         .then {
           margin-top: 20px;
         }
+        .iphone-design {
+          position: relative;
+          margin-top: auto;
+          margin-bottom: 50px;
+          transform: rotate(270deg);
+        }
 
       }
+      #container {
+        margin: 0px auto;
+        width: 500px;
+        position: relative;
+        height: max-content;
+      }
+      #videoElement {
+        width: 470px;
+        left: 10px;
+        height: 375px;
+        position: absolute;
+        border-radius: 30px;
+        
+      }
+      
+      .button-side {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+      }
+      .img-icon1 {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        animation-name: moveFast;
+        animation-duration: 4s;
+        z-index: 300;
+      }
+      .img-icon2 {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        animation-name: moveMediem;
+        animation-duration: 4s;
+        z-index: 300;
+      }
+      .img-icon3 {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        animation-name: moveSlow;
+        animation-duration: 4s;
+        z-index: 300;
+      }
+      .img-icon4 {
+        position: relative;
+        width: 35px;
+        height: 35px;
+        animation-name: moveFast;
+        animation-duration: 4s;
+        z-index: 300;
+      }
+
     </style>
 
     <title>Sugar Now</title>
   </head>
   <body>
+    <div id="google_translate_element">
+      <div class='hide-powerby'></div>
+    </div>
+    
+    <script>
+      function googleTranslateElementInit() {
+          new google.translate.TranslateElement(
+              {pageLanguage: 'th'},
+              'google_translate_element'
+          );
+      }
+      
+      
+      var videoWidth, videoHeight;
+      var getVideoSize = function() {
+          videoWidth = video.videoWidth;
+          videoHeight = video.videoHeight;
+          video.removeEventListener('playing', getVideoSize, false);
+      };
+
+      video.addEventListener('playing', getVideoSize, false);
+      console.log(videoWidth,videoHeight);
+      
+  </script>
+  
+  <script src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <div class='container'>
       <img class="sugarnow-logo" src="SugarNow.png" alt="sugarnow">
-      <button type="button" id='btn-transcribe' class="relative button-logo">
-        <img class="absolute" src="microphone.png" alt="microphone">
-      </button>
+      <div id="container">
+        <img src="iphone.png" alt="iphone" class="iphone-design"></img>
+        <video autoplay="true" id="videoElement">
+        
+        
+        </video>
+        <script>
+          var video = document.querySelector("#videoElement");
+
+          if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: { width: 470, height: 260} })
+              .then(function (stream) {
+                video.srcObject = stream;
+              })
+              .catch(function (err0r) {
+                console.log("Something went wrong!");
+              });
+          }
+
+        </script>
+      </div>
+      
+      <div class="button-side">
+        <img src="smile.png" alt="smile" class="img-icon1">
+        <img src="like.png" alt="like" class="img-icon2">
+        <img src="love.png" alt="love" class="img-icon3">
+        <button type="button" id='btn-transcribe' class="relative button-logo">
+          <img class="absolute" src="microphone2.png" alt="microphone">
+        </button>
+        <img src="smile.png" alt="smile" class="img-icon4">
+        <img src="love.png" alt="love" class="img-icon2">
+        <img src="like.png" alt="like" class="img-icon1">
+      </div>
       <span id='info'></span>
       <blockquote class="blockquote">
         <div id="results">
@@ -96,7 +260,9 @@
       </blockquote>
 
       <ul> 
-        <li class="then"><a href='https://airesearch.in.th/releases/machine-translation-models/' class="then">Translate to TH - EN</a></li>
+        <!-- <li class="then"><a href='https://airesearch.in.th/releases/machine-translation-models/' class="then">Translate to TH - EN</a></li> -->
+        <li class="then" id="translate">Translate to TH - EN</li>
+        <!-- <li class="translate">Click here to translate jaaaa</li> -->
         <li class="then"><a href='https://sugartechco.wixsite.com/my-site-2' class="then">CONTACT US</a></li>
       <ul>
 
@@ -107,7 +273,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
     <script>
 
       var synth = window.speechSynthesis;
@@ -132,6 +299,7 @@
       function showInfo(msg){
         // $('#info').html(msg);
       }
+
 
       function upgrade(){
         alert('Browser is not support');
